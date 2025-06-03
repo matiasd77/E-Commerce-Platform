@@ -3,6 +3,9 @@ import { FaQuestionCircle, FaEnvelope, FaPhone, FaMapMarkerAlt, FaChevronDown, F
 
 const HelpSupport = () => {
   const [openFaq, setOpenFaq] = useState(null);
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [formError, setFormError] = useState('');
+  const [formSuccess, setFormSuccess] = useState(false);
 
   const faqs = [
     {
@@ -29,6 +32,27 @@ const HelpSupport = () => {
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormError('');
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Basic validation
+    if (!form.name || !form.email || !form.message) {
+      setFormError('Please fill in all fields.');
+      return;
+    }
+    // Email format validation
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) {
+      setFormError('Please enter a valid email address.');
+      return;
+    }
+    setFormSuccess(true);
+    setForm({ name: '', email: '', message: '' });
   };
 
   return (
@@ -109,6 +133,59 @@ const HelpSupport = () => {
             <span className="text-gray-800">Terms of Service</span>
           </a>
         </div>
+      </div>
+
+      {/* Contact Form */}
+      <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Contact Form</h2>
+        {formSuccess && (
+          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">Thank you for contacting us! We will get back to you soon.</div>
+        )}
+        <form onSubmit={handleFormSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700 mb-1" htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleFormChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={form.email}
+              onChange={handleFormChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-1" htmlFor="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              value={form.message}
+              onChange={handleFormChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              rows={4}
+              required
+            />
+          </div>
+          {formError && <div className="text-red-600 text-sm">{formError}</div>}
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+          >
+            Send Message
+          </button>
+        </form>
       </div>
     </div>
   );

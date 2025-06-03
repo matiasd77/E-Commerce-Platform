@@ -1,6 +1,8 @@
 import React from 'react';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
+import { FaShippingFast, FaHeadset, FaUndoAlt, FaLock } from 'react-icons/fa';
+import BackToTopButton from '../components/BackToTopButton';
 
 const featuredProducts = [
   {
@@ -52,6 +54,33 @@ const HomePage = () => {
           <a href="/products" className="inline-block px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 transition text-lg">Start Shopping</a>
         </div>
       </section>
+
+      {/* Feature Highlights Section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
+            <FaShippingFast className="text-indigo-600 w-10 h-10 mb-3" />
+            <h3 className="font-semibold text-lg mb-1">Free Shipping</h3>
+            <p className="text-gray-500 text-center text-sm">On all orders over $50</p>
+          </div>
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
+            <FaHeadset className="text-indigo-600 w-10 h-10 mb-3" />
+            <h3 className="font-semibold text-lg mb-1">24/7 Support</h3>
+            <p className="text-gray-500 text-center text-sm">We're here to help anytime</p>
+          </div>
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
+            <FaUndoAlt className="text-indigo-600 w-10 h-10 mb-3" />
+            <h3 className="font-semibold text-lg mb-1">Easy Returns</h3>
+            <p className="text-gray-500 text-center text-sm">30-day hassle-free returns</p>
+          </div>
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
+            <FaLock className="text-indigo-600 w-10 h-10 mb-3" />
+            <h3 className="font-semibold text-lg mb-1">Secure Checkout</h3>
+            <p className="text-gray-500 text-center text-sm">100% secure payment</p>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">Featured Products</h2>
@@ -62,6 +91,7 @@ const HomePage = () => {
         </div>
       </section>
       <Footer />
+      <BackToTopButton />
     </div>
   );
 };
