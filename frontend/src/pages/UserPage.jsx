@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { FaEnvelope, FaUserTag, FaBoxOpen, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaUserTag, FaBoxOpen, FaMapMarkerAlt, FaUser, FaTimes } from 'react-icons/fa';
 
 const UserPage = () => {
   const { user, updateUserProfile } = useAuth();
@@ -95,43 +95,60 @@ const UserPage = () => {
       </div>
       {/* Edit Modal */}
       {showEdit && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
-            <h3 className="text-xl font-bold mb-4">Edit Profile</h3>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative animate-fade-in-up">
+            <button
+              className="absolute top-4 right-4 text-gray-400 hover:text-indigo-600 text-xl focus:outline-none"
+              onClick={() => setShowEdit(false)}
+              aria-label="Close"
+            >
+              <FaTimes />
+            </button>
+            <h3 className="text-2xl font-bold mb-2 text-indigo-700 text-center">Edit Profile</h3>
+            <div className="w-12 mx-auto border-b-2 border-indigo-100 mb-6" />
             <form onSubmit={handleEditSubmit} className="flex flex-col gap-4">
-              <input
-                type="text"
-                name="firstName"
-                value={editForm.firstName}
-                onChange={handleEditChange}
-                placeholder="First Name"
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required
-              />
-              <input
-                type="text"
-                name="lastName"
-                value={editForm.lastName}
-                onChange={handleEditChange}
-                placeholder="Last Name"
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                value={editForm.email}
-                onChange={handleEditChange}
-                placeholder="Email"
-                className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                required
-              />
-              {error && <div className="text-red-500 text-sm">{error}</div>}
-              {success && <div className="text-green-600 text-sm">Profile updated!</div>}
-              <div className="flex gap-4 mt-2">
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400"><FaUser /></span>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={editForm.firstName}
+                  onChange={handleEditChange}
+                  placeholder="First Name"
+                  className="pl-10 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 w-full"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400"><FaUser /></span>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={editForm.lastName}
+                  onChange={handleEditChange}
+                  placeholder="Last Name"
+                  className="pl-10 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 w-full"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400"><FaEnvelope /></span>
+                <input
+                  type="email"
+                  name="email"
+                  value={editForm.email}
+                  onChange={handleEditChange}
+                  placeholder="Email"
+                  className="pl-10 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 w-full"
+                  required
+                />
+              </div>
+              {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+              {success && <div className="text-green-600 text-sm text-center">Profile updated!</div>}
+              <div className="flex gap-4 mt-2 justify-center">
                 <button
                   type="button"
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold"
                   onClick={() => setShowEdit(false)}
                   disabled={saving}
                 >
@@ -139,7 +156,7 @@ const UserPage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                  className="px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-500 transition font-semibold shadow"
                   disabled={saving}
                 >
                   {saving ? 'Saving...' : 'Save'}
