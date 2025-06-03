@@ -33,6 +33,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-8 text-lg font-medium">
           <Link to="/" className="hover:text-indigo-600">Home</Link>
           <Link to="/products" className="hover:text-indigo-600">Products</Link>
+          <Link to="/help" className="hover:text-indigo-600">Help & Support</Link>
           <Link to="/cart" className="relative hover:text-indigo-600">
             Cart
             {cartCount > 0 && (

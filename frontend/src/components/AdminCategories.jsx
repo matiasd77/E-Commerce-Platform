@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../api/categories';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 
 const initialForm = { name: '', description: '' };
 
@@ -10,6 +11,7 @@ const AdminCategories = () => {
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
   const [formError, setFormError] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   const fetchCategories = () => {
     setLoading(true);
@@ -42,12 +44,14 @@ const AdminCategories = () => {
       description: category.description || '',
     });
     setFormError(null);
+    setShowForm(true);
   };
 
   const handleCancelEdit = () => {
     setEditingId(null);
     setForm(initialForm);
     setFormError(null);
+    setShowForm(false);
   };
 
   const handleChange = (e) => {
@@ -58,7 +62,7 @@ const AdminCategories = () => {
     e.preventDefault();
     setFormError(null);
     if (!form.name) {
-      setFormError('Name is required.');
+      setFormError('Name is required');
       return;
     }
     try {
@@ -70,72 +74,105 @@ const AdminCategories = () => {
       fetchCategories();
       setForm(initialForm);
       setEditingId(null);
+      setShowForm(false);
     } catch (err) {
-      setFormError('Failed to save category.');
+      setFormError('Failed to save category');
     }
   };
 
   return (
-    <div>
-      <h3 className="text-xl font-bold mb-4">Categories</h3>
-      <form onSubmit={handleSubmit} className="bg-gray-50 p-4 rounded mb-6 flex flex-col gap-2 max-w-xl">
-        <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Category Name"
-          className="border rounded px-3 py-2"
-        />
-        <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          placeholder="Description"
-          className="border rounded px-3 py-2"
-        />
-        {formError && <p className="text-red-500 text-sm">{formError}</p>}
-        <div className="flex gap-2">
-          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-            {editingId ? 'Update Category' : 'Add Category'}
-          </button>
-          {editingId && (
-            <button type="button" onClick={handleCancelEdit} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
-          )}
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-gray-800">Categories</h2>
+        <button
+          onClick={() => setShowForm(true)}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          <FaPlus className="mr-2" />
+          Add Category
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h3 className="text-lg font-semibold mb-4">
+            {editingId ? 'Edit Category' : 'Add New Category'}
+          </h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Category Name</label>
+              <input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter category name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                rows="3"
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter category description"
+              />
+            </div>
+            {formError && <p className="text-red-500 text-sm">{formError}</p>}
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                {editingId ? 'Update Category' : 'Add Category'}
+              </button>
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      <table className="w-full text-left bg-white shadow rounded">
-        <thead>
-          <tr>
-            <th className="py-2 px-4">Name</th>
-            <th className="py-2 px-4">Description</th>
-            <th className="py-2 px-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      )}
+
+      {loading ? (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading categories...</p>
+        </div>
+      ) : error ? (
+        <div className="bg-red-50 text-red-600 p-4 rounded-lg">{error}</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map(category => (
-            <tr key={category.id} className="border-t">
-              <td className="py-2 px-4">{category.name}</td>
-              <td className="py-2 px-4">{category.description}</td>
-              <td className="py-2 px-4">
-                <button
-                  onClick={() => handleEdit(category)}
-                  className="text-blue-500 hover:underline mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(category.id)}
-                  className="text-red-500 hover:underline mr-2"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+            <div key={category.id} className="bg-white rounded-lg shadow-lg p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(category)}
+                    className="text-blue-600 hover:text-blue-900"
+                  >
+                    <FaEdit className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(category.id)}
+                    className="text-red-600 hover:text-red-900"
+                  >
+                    <FaTrash className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+              <p className="text-gray-600">{category.description || 'No description provided'}</p>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 };

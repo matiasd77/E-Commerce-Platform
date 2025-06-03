@@ -18,6 +18,7 @@ const Footer = () => {
             <a href="/" className="hover:text-indigo-600 transition">Home</a>
             <a href="/products" className="hover:text-indigo-600 transition">Products</a>
             <a href="/cart" className="hover:text-indigo-600 transition">Cart</a>
+            <a href="/help" className="hover:text-indigo-600 transition">Help & Support</a>
             {!user && <a href="/login" className="hover:text-indigo-600 transition">Login/Register</a>}
           </div>
         </div>

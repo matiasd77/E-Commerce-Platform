@@ -12,6 +12,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import ProtectedRoute from './ProtectedRoute';
 import ProductsPage from '../pages/ProductsPage';
 import UserPage from '../pages/UserPage';
+import HelpSupport from '../pages/HelpSupport';
 
 const AppRoutes = () => (
   <Routes>
@@ -21,6 +22,7 @@ const AppRoutes = () => (
     <Route path="/product/:id" element={<ProductPage />} />
     <Route path="/products" element={<ProductsPage />} />
     <Route path="/user" element={<UserPage />} />
+    <Route path="/help" element={<HelpSupport />} />
     <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
     <Route path="/checkout" element={<CheckoutPage />} />
     <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
