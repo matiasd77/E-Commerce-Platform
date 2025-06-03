@@ -61,4 +61,10 @@ public class UserServiceImpl implements UserService {
         System.out.println("Created user with roles: " + savedUser.getRoles()); // Debug log
         return savedUser;
     }
+
+    @Override
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 } 

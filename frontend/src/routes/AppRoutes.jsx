@@ -9,6 +9,9 @@ import CheckoutPage from '../pages/CheckoutPage';
 import OrdersPage from '../pages/OrdersPage';
 import OrderDetailsPage from '../pages/OrderDetailsPage';
 import AdminDashboard from '../pages/AdminDashboard';
+import ProtectedRoute from './ProtectedRoute';
+import ProductsPage from '../pages/ProductsPage';
+import UserPage from '../pages/UserPage';
 
 const AppRoutes = () => (
   <Routes>
@@ -16,10 +19,12 @@ const AppRoutes = () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} />
     <Route path="/product/:id" element={<ProductPage />} />
-    <Route path="/cart" element={<CartPage />} />
+    <Route path="/products" element={<ProductsPage />} />
+    <Route path="/user" element={<UserPage />} />
+    <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
     <Route path="/checkout" element={<CheckoutPage />} />
-    <Route path="/orders" element={<OrdersPage />} />
-    <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
+    <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+    <Route path="/orders/:orderId" element={<ProtectedRoute><OrderDetailsPage /></ProtectedRoute>} />
     <Route path="/admin/*" element={<AdminDashboard />} />
   </Routes>
 );

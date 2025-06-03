@@ -9,6 +9,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -65,9 +66,11 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private Set<CartItem> cartItems = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private Set<OrderItem> orderItems = new HashSet<>();
 
     public Product() {

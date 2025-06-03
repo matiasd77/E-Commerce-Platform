@@ -49,9 +49,16 @@ public class AuthController {
             String jwt = tokenProvider.generateToken(authentication);
 
             User user = userService.findByEmail(loginRequest.getEmail());
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            userMap.put("email", user.getEmail());
+            userMap.put("role", user.getRole());
+
             Map<String, Object> response = new HashMap<>();
             response.put("token", jwt);
-            response.put("user", user);
+            response.put("user", userMap);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -77,9 +84,16 @@ public class AuthController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
 
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            userMap.put("email", user.getEmail());
+            userMap.put("role", user.getRole());
+
             Map<String, Object> response = new HashMap<>();
             response.put("token", jwt);
-            response.put("user", user);
+            response.put("user", userMap);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -92,9 +106,46 @@ public class AuthController {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findByEmail(authentication.getName());
-            return ResponseEntity.ok(user);
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            userMap.put("email", user.getEmail());
+            userMap.put("role", user.getRole());
+            return ResponseEntity.ok(userMap);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to get user information");
+        }
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> updateCurrentUser(@RequestBody Map<String, String> updates) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findByEmail(authentication.getName());
+
+            if (updates.containsKey("firstName")) {
+                user.setFirstName(updates.get("firstName"));
+            }
+            if (updates.containsKey("lastName")) {
+                user.setLastName(updates.get("lastName"));
+            }
+            if (updates.containsKey("email")) {
+                user.setEmail(updates.get("email"));
+            }
+            // Optionally: handle password change, validation, etc.
+
+            userService.save(user);
+
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("firstName", user.getFirstName());
+            userMap.put("lastName", user.getLastName());
+            userMap.put("email", user.getEmail());
+            userMap.put("role", user.getRole());
+            return ResponseEntity.ok(userMap);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to update user information");
         }
     }
 

@@ -22,6 +22,7 @@ C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\j
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\repository\ProductRepository.java
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\security\JwtAuthenticationFilter.java
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\controller\AuthController.java
+C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\config\WebConfig.java
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\EcommerceApplication.java
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\service\impl\ProductServiceImpl.java
 C:\Users\USER\OneDrive\Desktop\End-to-End E-Commerce Platform\backend\src\main\java\com\ecommerce\exception\UserException.java

@@ -7,4 +7,5 @@ public interface UserService {
     User findByEmail(String email);
     boolean existsByEmail(String email);
     User createUser(RegisterRequest registerRequest);
+    User save(User user);
 } 

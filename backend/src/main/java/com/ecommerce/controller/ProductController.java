@@ -9,6 +9,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import java.util.List;
 
@@ -18,6 +24,9 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+
+    @Value("${upload.dir:uploads}")
+    private String uploadDir;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -79,5 +88,25 @@ public class ProductController {
     @PostMapping("/batch")
     public ResponseEntity<List<Product>> getProductsByIds(@RequestBody List<Long> ids) {
         return ResponseEntity.ok(productService.getProductsByIds(ids));
+    }
+
+    @PostMapping("/upload-image")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("No file selected");
+            }
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path filePath = uploadPath.resolve(filename);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            String imageUrl = "/uploads/" + filename;
+            return ResponseEntity.ok().body(imageUrl);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Image upload failed");
+        }
     }
 } 
