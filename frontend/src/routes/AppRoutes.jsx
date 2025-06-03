@@ -13,6 +13,10 @@ import ProtectedRoute from './ProtectedRoute';
 import ProductsPage from '../pages/ProductsPage';
 import UserPage from '../pages/UserPage';
 import HelpSupport from '../pages/HelpSupport';
+import ShippingInfo from '../pages/ShippingInfo';
+import Returns from '../pages/Returns';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
+import Terms from '../pages/Terms';
 
 const AppRoutes = () => (
   <Routes>
@@ -23,6 +27,10 @@ const AppRoutes = () => (
     <Route path="/products" element={<ProductsPage />} />
     <Route path="/user" element={<UserPage />} />
     <Route path="/help" element={<HelpSupport />} />
+    <Route path="/shipping" element={<ShippingInfo />} />
+    <Route path="/returns" element={<Returns />} />
+    <Route path="/privacy" element={<PrivacyPolicy />} />
+    <Route path="/terms" element={<Terms />} />
     <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
     <Route path="/checkout" element={<CheckoutPage />} />
     <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
