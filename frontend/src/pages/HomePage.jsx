@@ -3,6 +3,7 @@ import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer';
 import { FaShippingFast, FaHeadset, FaUndoAlt, FaLock } from 'react-icons/fa';
 import BackToTopButton from '../components/BackToTopButton';
+import { useAuth } from '../auth/AuthContext';
 
 const featuredProducts = [
   {
@@ -36,8 +37,9 @@ const featuredProducts = [
 ];
 
 const HomePage = () => {
+  const { user } = useAuth();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-gray-100 flex flex-col mt-20">
       {/* Hero Section */}
       <section className="relative flex items-center justify-center min-h-[60vh] w-full overflow-hidden">
         {/* Background Image */}
@@ -49,9 +51,33 @@ const HomePage = () => {
         <svg className="absolute bottom-10 right-10 w-40 h-40 opacity-20 z-20" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path fill="#818CF8" d="M38.2,-62.7C51.2,-54.2,63.2,-44.2,68.2,-31.7C73.2,-19.2,71.2,-4.2,67.2,10.2C63.2,24.6,57.2,38.4,46.2,47.7C35.2,57,19.2,61.8,3.2,58.6C-12.8,55.4,-25.6,44.2,-36.2,33.2C-46.8,22.2,-55.2,11.1,-59.2,-2.2C-63.2,-15.5,-62.8,-31,-54.8,-41.2C-46.8,-51.4,-31.2,-56.2,-16.2,-62.2C-1.2,-68.2,13.2,-75.2,27.2,-74.2C41.2,-73.2,55.2,-65.2,38.2,-62.7Z" transform="translate(100 100)" /></svg>
         {/* Hero Content */}
         <div className="relative z-30 flex flex-col items-center text-center px-6 py-20 max-w-2xl mx-auto">
+          {user && (
+            <div className="text-lg md:text-xl text-white font-semibold mb-2 drop-shadow animate-fade-in">
+              Welcome back, {user.firstName || user.email || 'User'}!
+            </div>
+          )}
           <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg mb-4">Find the Best Deals on Your Favorite Products</h1>
           <p className="text-lg md:text-2xl text-white mb-8 drop-shadow">Shop the latest electronics, gadgets, and more at unbeatable prices.</p>
-          <a href="/products" className="inline-block px-8 py-4 bg-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:bg-indigo-700 transition text-lg">Start Shopping</a>
+          <a
+            href="/products"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-pink-500 hover:to-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-300 text-lg"
+          >
+            Start Shopping
+          </a>
+          {/* Trusted by Badge */}
+          <div className="mt-6 flex flex-col items-center">
+            <span className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 text-indigo-700 font-semibold px-4 py-2 rounded-full shadow text-base">
+              <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.178c.969 0 1.371 1.24.588 1.81l-3.385 2.46a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.385-2.46a1 1 0 00-1.175 0l-3.385 2.46c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118l-3.385-2.46c-.783-.57-.38-1.81.588-1.81h4.178a1 1 0 00.95-.69l1.286-3.967z" /></svg>
+              Trusted by 10,000+ Customers
+            </span>
+          </div>
+          {/* Shop by Category Quick Links */}
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="/products?category=electronics" className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-purple-500 hover:to-pink-500 text-white px-6 py-2 rounded-full font-medium shadow transition-all duration-200">Electronics</a>
+            <a href="/products?category=accessories" className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-purple-500 hover:to-indigo-500 text-white px-6 py-2 rounded-full font-medium shadow transition-all duration-200">Accessories</a>
+            <a href="/products?category=wearables" className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-indigo-500 hover:to-pink-500 text-white px-6 py-2 rounded-full font-medium shadow transition-all duration-200">Wearables</a>
+            <a href="/products?category=cameras" className="bg-gradient-to-r from-pink-400 to-indigo-400 hover:from-indigo-500 hover:to-purple-500 text-white px-6 py-2 rounded-full font-medium shadow transition-all duration-200">Cameras</a>
+          </div>
         </div>
       </section>
 

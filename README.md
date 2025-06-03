@@ -70,7 +70,7 @@ A full-stack e-commerce platform built with Spring Boot and React.
 
 2. Configure PostgreSQL database in `application.properties`:
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
+   spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce_platform
    spring.datasource.username=your_username
    spring.datasource.password=your_password
    ```
@@ -103,7 +103,7 @@ A full-stack e-commerce platform built with Spring Boot and React.
 ### Backend
 Create a `.env` file in the backend directory:
 ```env
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/ecommerce
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/ecommerce_platform
 SPRING_DATASOURCE_USERNAME=your_username
 SPRING_DATASOURCE_PASSWORD=your_password
 JWT_SECRET=your_jwt_secret_key

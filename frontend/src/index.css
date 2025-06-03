@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
 @layer base {
   body {
@@ -48,6 +49,22 @@
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: none; }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1) both;
+}
+@keyframes avatarSpin {
+  0% { box-shadow: 0 0 0 0 #fff0; }
+  50% { box-shadow: 0 0 0 6px #a5b4fc44; }
+  100% { box-shadow: 0 0 0 0 #fff0; }
+}
+.animate-avatar-spin {
+  animation: avatarSpin 2.5s linear infinite;
 }
 
 /* Custom Scrollbar */

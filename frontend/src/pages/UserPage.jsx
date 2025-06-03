@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaUserTag, FaBoxOpen, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 
 const UserPage = () => {
   const { user, updateUserProfile } = useAuth();
@@ -10,6 +11,7 @@ const UserPage = () => {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('profile');
 
   useEffect(() => {
     if (!user) {
@@ -48,27 +50,48 @@ const UserPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-gray-100 flex flex-col items-center justify-center py-16">
-      <div className="bg-white rounded-3xl shadow-xl p-10 max-w-md w-full flex flex-col items-center relative">
-        <div className="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-3xl font-bold text-indigo-700 mb-4">
-          {user.firstName[0]}{user.lastName[0]}
+      <div className="bg-white rounded-3xl shadow-xl p-10 max-w-md w-full flex flex-col items-center relative animate-fade-in-up">
+        {/* Animated Avatar */}
+        <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 p-1 mb-4 animate-avatar-spin">
+          <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-4xl font-bold text-indigo-700">
+            {user.firstName?.[0] || ''}{user.lastName?.[0] || ''}
+          </div>
         </div>
-        <h2 className="text-2xl font-bold mb-2 text-gray-800">{user.firstName} {user.lastName}</h2>
-        <p className="text-gray-500 mb-2">{user.email}</p>
-        <span className="inline-block px-4 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-xs mb-4">{user.role}</span>
+        <h2 className="text-2xl font-bold mb-1 text-gray-800 flex items-center gap-2"><FaUser className="text-indigo-400" /> {user.firstName} {user.lastName}</h2>
+        <p className="text-gray-500 mb-1 flex items-center gap-2"><FaEnvelope className="text-indigo-400" /> {user.email}</p>
+        <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-xs mb-4"><FaUserTag className="text-indigo-400" /> {user.role}</span>
         <button
           className="absolute top-6 right-6 px-4 py-1 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition text-sm font-semibold"
           onClick={() => setShowEdit(true)}
         >
           Edit
         </button>
-        <div className="w-full border-t border-gray-200 mt-4 pt-4 text-center">
-          <p className="text-gray-600">Welcome to your profile page! Here you can view your account details.</p>
+        {/* Tabs */}
+        <div className="w-full flex justify-center mt-4 mb-6">
+          <button onClick={() => setActiveTab('profile')} className={`px-4 py-2 rounded-t-lg font-semibold transition-all ${activeTab === 'profile' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-indigo-500'}`}>Profile Info</button>
+          <button onClick={() => setActiveTab('orders')} className={`px-4 py-2 rounded-t-lg font-semibold transition-all ${activeTab === 'orders' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-indigo-500'}`}>Orders</button>
+          <button onClick={() => setActiveTab('address')} className={`px-4 py-2 rounded-t-lg font-semibold transition-all ${activeTab === 'address' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-indigo-500'}`}>Address Book</button>
         </div>
-      </div>
-      {/* Order History Section */}
-      <div className="bg-white rounded-3xl shadow-xl p-8 max-w-2xl w-full mt-12">
-        <h3 className="text-xl font-bold mb-4 text-gray-800">Order History</h3>
-        <div className="text-gray-500 text-center py-8 text-lg font-medium">No orders completed yet.</div>
+        {/* Tab Content */}
+        <div className="w-full">
+          {activeTab === 'profile' && (
+            <div className="text-center text-gray-600">
+              <p>Welcome to your profile page! Here you can view and edit your account details.</p>
+            </div>
+          )}
+          {activeTab === 'orders' && (
+            <div className="text-center text-gray-600">
+              <FaBoxOpen className="mx-auto text-3xl text-indigo-300 mb-2" />
+              <div className="font-medium">No orders completed yet.</div>
+            </div>
+          )}
+          {activeTab === 'address' && (
+            <div className="text-center text-gray-600">
+              <FaMapMarkerAlt className="mx-auto text-3xl text-indigo-300 mb-2" />
+              <div className="font-medium">No addresses saved yet.</div>
+            </div>
+          )}
+        </div>
       </div>
       {/* Edit Modal */}
       {showEdit && (
